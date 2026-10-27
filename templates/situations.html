@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Real-life Situations | KNN{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">KOREAN FOR REAL LIFE</span>
+    <h1>Everyday <span class="accent-text">Situations.</span></h1>
+    <p>Choose a situation to learn expressions you can use in Korea.</p>
+</section>
+
+<div class="feature-grid">
+    <a class="feature-card" href="{{ url_for('learning_page') }}?topic=University">
+        <span class="feature-icon">🎓</span><h3>University</h3>
+        <p>Speak to professors, classmates, and university staff.</p>
+    </a>
+    <a class="feature-card" href="{{ url_for('learning_page') }}?topic=Part-time%20Work">
+        <span class="feature-icon">💼</span><h3>Part-time Work</h3>
+        <p>Learn workplace expressions for managers and coworkers.</p>
+    </a>
+    <a class="feature-card" href="{{ url_for('learning_page') }}?topic=Hospital">
+        <span class="feature-icon">✚</span><h3>Hospital</h3>
+        <p>Describe symptoms and understand basic medical phrases.</p>
+    </a>
+    <a class="feature-card" href="{{ url_for('learning_page') }}?topic=Daily%20Life">
+        <span class="feature-icon">🏠</span><h3>Daily Life</h3>
+        <p>Practise common conversations and everyday requests.</p>
+    </a>
+    <a class="feature-card" href="{{ url_for('learning_page') }}?topic=Bank">
+        <span class="feature-icon">₩</span><h3>Bank</h3>
+        <p>Learn useful phrases for basic banking services.</p>
+    </a>
+    <a class="feature-card" href="{{ url_for('learning_page') }}?topic=Phone%20and%20Internet">
+        <span class="feature-icon">▣</span><h3>Phone & Internet</h3>
+        <p>Ask for help with phone plans, bills, and connectivity.</p>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Korean Learning | KNN{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">PRACTISE A LITTLE EVERY DAY</span>
+    <h1>Korean <span class="accent-text">Learning.</span></h1>
+    <p>Generate practical expressions with English and Bangla meanings.</p>
+</section>
+
+<section class="tool-panel">
+    <label for="learningTopic">What do you want to learn?</label>
+    <input id="learningTopic" type="text" maxlength="200"
+        value="{{ request.args.get('topic', '') }}"
+        placeholder="Example: introducing myself at university">
+
+    <div class="suggestion-chips">
+        <button type="button" class="chip" data-topic="Daily Korean greetings">Greetings</button>
+        <button type="button" class="chip" data-topic="Korean for part-time work">Part-time work</button>
+        <button type="button" class="chip" data-topic="Korean for university">University</button>
+        <button type="button" class="chip" data-topic="Ordering food in Korean">Ordering food</button>
+    </div>
+
+    <button class="btn btn-primary btn-full" id="learningBtn">Create my lesson →</button>
+    <div id="learningStatus" class="status-message" role="status"></div>
+
+    <div id="learningResult" class="result-card" hidden>
+        <h2>Your Korean lesson</h2>
+        <div id="learningOutput" class="result-content"></div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/assistant.js') }}"></script>
+{% endblock %}

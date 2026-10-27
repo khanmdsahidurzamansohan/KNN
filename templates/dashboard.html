@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | KNN{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+
+    <!-- Dashboard Overlay Hero Banner -->
+    <div class="hero-banner-bg" style="background-image: linear-gradient(90deg, rgba(23, 26, 43, 0.88) 0%, rgba(23, 26, 43, 0.5) 100%), url('{{ url_for('static', filename='images/seoul_tower_anime.jpg') }}'); background-size: cover; background-position: center; min-height: 380px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; margin: 20px 0 35px; padding: 40px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12);">
+        
+        <!-- Left Side: Welcome Text -->
+        <div class="hero-banner-content" style="position: relative; z-index: 2; max-width: 550px; color: white;">
+            <span class="eyebrow" style="color: #a59eff; font-weight: 600; letter-spacing: 1px;">YOUR WORKSPACE</span>
+            <h1 style="color: white; margin: 12px 0 14px; font-size: 2.2rem; line-height: 1.2;">
+                Welcome, {{ current_user }} 👋
+            </h1>
+            <p style="color: #e2e4ef; font-size: 1.05rem;">
+                What would you like to work on today?
+            </p>
+            <div class="hero-actions" style="margin-top: 22px; display: flex; gap: 12px;">
+                <a class="btn btn-primary" href="{{ url_for('translate_page') }}">Translate now →</a>
+                <a class="btn btn-light" href="{{ url_for('history_page') }}">View history</a>
+            </div>
+        </div>
+
+        <!-- Right Side: Floating Glassmorphism Stats Cards -->
+        <div class="dashboard-glass-stats" style="position: relative; z-index: 2; display: flex; flex-direction: column; gap: 12px; width: 260px;">
+            
+            <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 14px; padding: 12px 18px; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+                <span style="font-size: 0.75rem; font-weight: 600; color: #a59eff; display: block;">Total activities</span>
+                <strong style="font-size: 1.5rem; color: #ffffff; display: block; margin-top: 2px;">{{ count }}</strong>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 14px; padding: 12px 18px; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+                <span style="font-size: 0.75rem; font-weight: 600; color: #6ee7b7; display: block;">Favorite items</span>
+                <strong style="font-size: 1.5rem; color: #ffffff; display: block; margin-top: 2px;">{{ fav_count }}</strong>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 14px; padding: 12px 18px; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+                <span style="font-size: 0.75rem; font-weight: 600; color: #cbd2e1; display: block;">Language support</span>
+                <strong style="font-size: 1.2rem; color: #ffffff; display: block; margin-top: 2px;">3</strong>
+                <small style="color: #e2e8f0; font-size: 0.8rem; display: block; margin-top: 2px;">Korean · English · Bangla</small>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Quick Access Section -->
+    <section class="section">
+        <div class="section-heading left-heading">
+            <h2>Quick access</h2>
+            <p>Choose a tool to get started.</p>
+        </div>
+
+        <div class="feature-grid">
+            <a class="feature-card" href="{{ url_for('translate_page') }}">
+                <span class="feature-icon">文</span>
+                <h3>Translate</h3>
+                <p>Translate text with AI assistance.</p>
+            </a>
+            <a class="feature-card" href="{{ url_for('understand_page') }}">
+                <span class="feature-icon">✦</span>
+                <h3>Understand</h3>
+                <p>Learn the meaning of Korean text.</p>
+            </a>
+            <a class="feature-card" href="{{ url_for('reply_page') }}">
+                <span class="feature-icon">↗</span>
+                <h3>Smart Reply</h3>
+                <p>Prepare a polite and natural response.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Recent Activity Section -->
+    <section class="section">
+        <div class="section-heading left-heading">
+            <h2>Recent activity</h2>
+            <a class="text-link" href="{{ url_for('history_page') }}">View history →</a>
+        </div>
+
+        {% if recent %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Feature</th><th>Input</th><th>Date</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for item in recent %}
+                        <tr>
+                            <td>{{ item["feature"] }}</td>
+                            <td>{{ item["source_text"][:90] }}</td>
+                            <td>{{ item["created_at"] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No activity yet</h3>
+                <p>Your saved AI activity will appear here after you use a tool while logged in.</p>
+                <a href="{{ url_for('translate_page') }}" class="btn btn-primary">Try translation</a>
+            </div>
+        {% endif %}
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}History | KNN{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">YOUR ACTIVITY</span>
+    <h1>Translation <span class="accent-text">History.</span></h1>
+    <p>Your latest saved AI activities.</p>
+</section>
+
+{% if rows %}
+<div class="history-list">
+    {% for item in rows %}
+    <article class="history-card">
+        <div class="history-meta">
+            <span class="tag">{{ item["feature"] }}</span>
+            <small>{{ item["created_at"] }}</small>
+        </div>
+        <h3>Input</h3>
+        <p class="preserve-text">{{ item["source_text"] }}</p>
+        <details>
+            <summary>View result</summary>
+            <p class="preserve-text">{{ item["result_text"] }}</p>
+        </details>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>No history yet</h2>
+    <p>Use KNN while logged in and your AI activities will appear here.</p>
+    <a class="btn btn-primary" href="{{ url_for('translate_page') }}">Translate something</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KNN | Live Chat</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Arial, sans-serif;
+      background: #f3f6fb; color: #172033;
+    }
+    .wrap { max-width: 1000px; margin: 30px auto; padding: 16px; }
+    .top, .panel {
+      background: white; padding: 20px; border-radius: 16px;
+      box-shadow: 0 4px 20px #15294b10; margin-bottom: 16px;
+    }
+    .top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    h1 { margin: 0 0 8px; color: #2457d6; }
+    a { color: #2457d6; text-decoration: none; }
+    input, select, button {
+      padding: 12px; border: 1px solid #d6dce8; border-radius: 9px;
+      font-size: 15px; max-width: 100%;
+    }
+    button { background: #2457d6; color: white; border: 0; cursor: pointer; }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    .start { display: flex; gap: 8px; flex-wrap: wrap; }
+    .start input { flex: 1; min-width: 200px; }
+    .chat-layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; }
+    .friend { display: block; padding: 12px; border-radius: 8px; margin-top: 8px; background: #f3f6fb; }
+    .friend.active { background: #dfe8ff; font-weight: bold; }
+    #messages {
+      height: 400px; overflow-y: auto; padding: 12px;
+      background: #f8faff; border-radius: 12px; margin-bottom: 12px;
+    }
+    .message { background: white; border: 1px solid #e3e8f1; border-radius: 12px;
+      padding: 12px; margin: 10px 0; overflow-wrap: anywhere; }
+    .message.mine { background: #eaf0ff; }
+    .meta { font-size: 12px; color: #64708a; margin-bottom: 7px; }
+    .translation { margin-top: 8px; padding-top: 8px; border-top: 1px solid #dce3f0; }
+    .send { display: flex; gap: 8px; }
+    .send input { flex: 1; min-width: 0; }
+    #status, #notice { font-size: 14px; color: #52617b; margin: 8px 0; }
+    @media(max-width: 700px) {
+      .chat-layout { grid-template-columns: 1fr; }
+      #messages { height: 55vh; }
+    }
+  </style>
+</head>
+<body data-user-id="{{ current_user_id }}">
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>KNN Live Chat</h1>
+      <div>Chat across Bangla, English and Korean.</div>
+    </div>
+    <div>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a> ·
+      <a href="{{ url_for('language_settings') }}">Language settings</a> ·
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Start a private conversation</h3>
+    <form id="startForm" class="start">
+      <input id="friendEmail" type="email" placeholder="Friend's registered email" required>
+      <button type="submit">Start chat</button>
+    </form>
+    <div id="notice" role="status"></div>
+  </div>
+
+  <div class="chat-layout">
+    <aside class="panel">
+      <h3>Your conversations</h3>
+      {% if chats %}
+        {% for c in chats %}
+          <a class="friend" href="{{ url_for('chat_page', conversation=c['conversation_id']) }}">
+            {{ c['other_name'] }}
+            <div style="font-size:12px;color:#64708a">{{ c['other_email'] }}</div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <p>No conversations yet. Enter your friend's email above.</p>
+      {% endif %}
+    </aside>
+
+    <main class="panel">
+      <h3 id="chatTitle">Select a conversation</h3>
+      <div id="status">Choose a friend to start chatting.</div>
+      <div id="messages" aria-live="polite"></div>
+      <form id="messageForm" class="send">
+        <select id="sourceLanguage" aria-label="Message language">
+          {% for code, name in languages.items() %}
+            <option value="{{ code }}" {% if code == 'en' %}selected{% endif %}>
+              {{ name }}
+            </option>
+          {% endfor %}
+        </select>
+        <input id="messageInput" maxlength="2000" placeholder="Type a message..." autocomplete="off" required>
+        <button id="sendButton" type="submit">Send</button>
+      </form>
+      <p style="font-size:12px;color:#64708a">
+        Your original message and its translation will be shown when available.
+      </p>
+    </main>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  window.KNN_CHAT = {
+    preferredLanguage: {{ (selected_language or 'en') | tojson }},
+    messagesUrlTemplate: {{ url_for('chat_messages', cid=999999) | tojson }}
+  };
+</script>
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>

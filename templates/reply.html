@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Smart Reply | KNN{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">SAY IT NATURALLY</span>
+    <h1>Smart <span class="accent-text">Reply.</span></h1>
+    <p>Get help replying to Korean messages politely and naturally.</p>
+</section>
+
+<section class="tool-panel">
+    <label for="replySituation">What's the situation?</label>
+    <select id="replySituation">
+        <option>Daily life</option>
+        <option>University / Professor</option>
+        <option>Part-time job / Manager</option>
+        <option>Friend / Casual conversation</option>
+        <option>Hospital / Doctor</option>
+    </select>
+
+    <label for="replyInput">Message you received</label>
+    <textarea id="replyInput" rows="6" maxlength="5000"
+        placeholder="Paste the message you need to reply to..."></textarea>
+
+    <button class="btn btn-primary btn-full" id="replyBtn">Suggest a reply →</button>
+    <div id="replyStatus" class="status-message" role="status"></div>
+
+    <div id="replyResult" class="result-card" hidden>
+        <h2>Suggested response</h2>
+        <div id="replyOutput" class="result-content"></div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/assistant.js') }}"></script>
+{% endblock %}

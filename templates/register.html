@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Create Account | KNN{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-intro">
+        <span class="eyebrow">JOIN KNN</span>
+        <h1>Build confidence<br>in a new language.</h1>
+        <p>Create your account to keep your Korean learning tools in one place.</p>
+    </div>
+
+    <div class="auth-card">
+        <div class="auth-logo">KNN</div>
+        <h2>Create your account</h2>
+        <p class="muted">It only takes a moment to get started.</p>
+
+        <form method="POST" action="{{ url_for('register') }}">
+            <label for="name">Your name</label>
+            <input id="name" type="text" name="name" placeholder="Enter your name" required maxlength="80" autocomplete="name">
+
+            <label for="email">Email address</label>
+            <input id="email" type="email" name="email" placeholder="you@example.com" required maxlength="254" autocomplete="email">
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password">
+
+            <button type="submit" class="btn btn-primary btn-full">Create account →</button>
+        </form>
+
+        <p class="auth-switch">Already registered?
+            <a href="{{ url_for('login') }}">Sign in</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

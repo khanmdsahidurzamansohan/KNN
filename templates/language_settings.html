@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KNN | Language Settings</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      margin: 0; padding: 24px; font-family: Arial, sans-serif;
+      background: #f3f6fb; color: #172033;
+    }
+    .card {
+      max-width: 520px; margin: 50px auto; background: white;
+      padding: 28px; border-radius: 16px; box-shadow: 0 4px 20px #15294b12;
+    }
+    h1 { color: #2457d6; }
+    label { display: block; margin: 18px 0 8px; }
+    select, button {
+      width: 100%; padding: 13px; font-size: 16px;
+      border-radius: 9px; border: 1px solid #d6dce8;
+    }
+    button {
+      margin-top: 18px; background: #2457d6;
+      color: white; border: 0; cursor: pointer;
+    }
+    a { color: #2457d6; text-decoration: none; }
+    .flash { padding: 10px; border-radius: 8px; background: #edf7ed; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Language Settings</h1>
+    <p>Choose the language you want to receive chat messages in.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <p class="flash">{{ message }}</p>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('language_settings') }}">
+    <label for="language">Choose Language:</label>
+    <select name="language" id="language">
+        {% for code, name in languages.items() %}
+            <option value="{{ code }}" {% if session.get('user_language') == code %}selected{% endif %}>
+                {{ name }}
+            </option>
+        {% endfor %}
+    </select>
+    
+    <button type="submit">Save</button>
+</form>
+
+    <p><a href="{{ url_for('chat_page') }}">← Back to Live Chat</a></p>
+    <p><a href="{{ url_for('dashboard') }}">Dashboard</a></p>
+  </main>
+</body>
+</html>

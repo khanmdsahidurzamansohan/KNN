@@ -1,0 +1,5 @@
+Flask
+python-dotenv
+google-genai
+Flask-SocketIO
+simple-websocket

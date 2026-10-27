@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Login | KNN{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-intro">
+        <span class="eyebrow">WELCOME BACK</span>
+        <h1>Your Korean journey<br>continues here.</h1>
+        <p>Sign in to access your dashboard, translation history, and favorites.</p>
+        <div class="auth-quote">“A little Korean every day makes a big difference.”</div>
+    </div>
+
+    <div class="auth-card">
+        <div class="auth-logo">KNN</div>
+        <h2>Sign in</h2>
+        <p class="muted">Enter your account details below.</p>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <label for="email">Email address</label>
+            <input id="email" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" placeholder="Your password" required autocomplete="current-password">
+
+            <button type="submit" class="btn btn-primary btn-full">Login to KNN →</button>
+        </form>
+
+        <p class="auth-switch">Don't have an account?
+            <a href="{{ url_for('register') }}">Create one</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

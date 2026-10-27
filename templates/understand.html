@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Understand Korean | KNN{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">LEARN THE MEANING</span>
+    <h1>Understand <span class="accent-text">Korean.</span></h1>
+    <p>Explore meaning, tone, context, and useful vocabulary.</p>
+</section>
+
+<section class="tool-panel">
+    <label for="understandInput">Korean text or message</label>
+    <textarea id="understandInput" rows="6" maxlength="5000"
+        placeholder="Paste the Korean message you want to understand..."></textarea>
+
+    <button class="btn btn-primary btn-full" id="understandBtn">Explain this message →</button>
+    <div id="understandStatus" class="status-message" role="status"></div>
+
+    <div id="understandResult" class="result-card" hidden>
+        <h2>Explanation</h2>
+        <div id="understandOutput" class="result-content"></div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/assistant.js') }}"></script>
+{% endblock %}

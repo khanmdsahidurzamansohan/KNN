@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Favorites | KNN{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">KEEP WHAT MATTERS</span>
+    <h1>Your <span class="accent-text">Favorites.</span></h1>
+    <p>Revisit translations and explanations you've saved.</p>
+</section>
+
+{% if rows %}
+<div class="history-list">
+    {% for item in rows %}
+    <article class="history-card">
+        <div class="history-meta">
+            <span class="tag">♡ Favorite</span>
+            <small>{{ item["created_at"] }}</small>
+        </div>
+        <h3>Original text</h3>
+        <p class="preserve-text">{{ item["source_text"] }}</p>
+        <h3>Result</h3>
+        <p class="preserve-text">{{ item["result_text"] }}</p>
+        <button class="btn btn-secondary copy-favorite"
+            type="button" data-copy="{{ item['result_text'] }}">Copy result</button>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>No favorites saved</h2>
+    <p>After translating text, use “Save to favorites” to keep useful results here.</p>
+    <a class="btn btn-primary" href="{{ url_for('translate_page') }}">Start translating</a>
+</div>
+{% endif %}
+{% endblock %}

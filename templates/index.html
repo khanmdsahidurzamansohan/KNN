@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}KNN — Korean Native Navigator{% endblock %}
+
+{% block content %}
+<!-- Full Overlay Hero Banner Section -->
+<div class="hero-banner-bg" style="background-image: linear-gradient(90deg, rgba(23, 26, 43, 0.88) 0%, rgba(23, 26, 43, 0.45) 100%), url('{{ url_for('static', filename='images/seoul_tower.jpg') }}'); background-size: cover; background-position: center; min-height: 440px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; margin: 20px 0 35px; padding: 45px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12);">
+    
+    <!-- Left side Text Content -->
+    <div class="hero-banner-content" style="position: relative; z-index: 2; max-width: 580px; color: white;">
+        <span class="eyebrow" style="color: #a59eff; font-weight: 600; letter-spacing: 1px;">YOUR EVERYDAY KOREAN ASSISTANT</span>
+        <h1 style="color: white; margin: 14px 0 18px; font-size: 2.5rem; line-height: 1.2;">Feel more confident<br>speaking <span style="color: #a59eff;">Korean.</span></h1>
+        <p style="color: #e2e4ef; font-size: 1.05rem; line-height: 1.6;">
+            Understand Korean messages, translate naturally, and find the right words for university, work, and everyday life in Korea.
+        </p>
+        <div class="hero-actions" style="margin-top: 25px; display: flex; gap: 12px;">
+            <a class="btn btn-primary" href="{{ url_for('translate_page') }}">Start translating →</a>
+            <a class="btn btn-light" href="{{ url_for('register') }}">Create free account</a>
+        </div>
+        <div class="hero-note" style="color: #cbd2e1; margin-top: 18px; font-size: 0.9rem;">Korean · English · Bangla</div>
+    </div>
+
+    <!-- Right side Korean & Bangla Glassmorphism Cards -->
+    <div class="hero-glass-cards" style="position: relative; z-index: 2; display: flex; flex-direction: column; gap: 15px; width: 280px;">
+        
+        <!-- Korean Card -->
+        <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 14px; padding: 14px 18px; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+            <span style="font-size: 0.75rem; font-weight: 700; color: #a59eff; display: block; margin-bottom: 4px;">KOREAN</span>
+            <strong style="font-size: 1.2rem; display: block; color: #ffffff;">안녕하세요!</strong>
+            <small style="color: #d1d5db; font-size: 0.85rem;">Hello!</small>
+        </div>
+
+        <!-- Bangla Card -->
+        <div style="background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 14px; padding: 14px 18px; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.15); margin-left: 15px;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: #6ee7b7; display: block; margin-bottom: 4px;">BANGLA</span>
+            <strong style="font-size: 1.1rem; display: block; color: #ffffff;">হ্যালো!</strong>
+            <small style="color: #e2e8f0; font-size: 0.85rem; line-height: 1.3; display: block; margin-top: 2px;">আপনার সঙ্গে পরিচিত হয়ে ভালো লাগল।</small>
+        </div>
+
+    </div>
+</div>
+
+<!-- Features Section -->
+<section class="section">
+    <div class="section-heading">
+        <span class="eyebrow">WHAT YOU CAN DO</span>
+        <h2>One assistant. Everyday situations.</h2>
+        <p>Useful Korean support for your life in Korea.</p>
+    </div>
+
+    <div class="feature-grid">
+        <a class="feature-card" href="{{ url_for('translate_page') }}">
+            <span class="feature-icon">文</span>
+            <h3>Smart Translation</h3>
+            <p>Translate Korean and English into the language you understand.</p>
+            <span class="text-link">Translate now →</span>
+        </a>
+
+        <a class="feature-card" href="{{ url_for('understand_page') }}">
+            <span class="feature-icon">✦</span>
+            <h3>Understand Korean</h3>
+            <p>Explore meaning, context, vocabulary, and politeness.</p>
+            <span class="text-link">Understand →</span>
+        </a>
+
+        <a class="feature-card" href="{{ url_for('reply_page') }}">
+            <span class="feature-icon">↗</span>
+            <h3>Smart Reply</h3>
+            <p>Get suggestions for responding to Korean messages.</p>
+            <span class="text-link">Write a reply →</span>
+        </a>
+
+        <a class="feature-card" href="{{ url_for('situations_page') }}">
+            <span class="feature-icon">◎</span>
+            <h3>Real-life Situations</h3>
+            <p>Prepare phrases for work, university, hospitals, and more.</p>
+            <span class="text-link">Explore situations →</span>
+        </a>
+
+        <a class="feature-card" href="{{ url_for('learning_page') }}">
+            <span class="feature-icon">Aa</span>
+            <h3>Korean Learning</h3>
+            <p>Practise useful expressions and everyday vocabulary.</p>
+            <span class="text-link">Start learning →</span>
+        </a>
+
+        <a class="feature-card" href="{{ url_for('register') }}">
+            <span class="feature-icon">♡</span>
+            <h3>Save Your Progress</h3>
+            <p>Create an account to keep your activity and favorite results.</p>
+            <span class="text-link">Join KNN →</span>
+        </a>
+    </div>
+</section>
+
+<section class="cta-panel">
+    <div>
+        <span class="eyebrow">MADE FOR LIFE IN KOREA</span>
+        <h2>Make every Korean conversation easier.</h2>
+        <p>Start with a sentence. Learn as you go.</p>
+    </div>
+    <a href="{{ url_for('translate_page') }}" class="btn btn-light">Try KNN now →</a>
+</section>
+{% endblock %}

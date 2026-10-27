@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Translate | KNN{% endblock %}
+
+{% block content %}
+<div class="page-heading">
+    <span class="eyebrow">KNN LANGUAGE ASSISTANT</span>
+    <h1>Smart Translation</h1>
+    <p>Translate Korean and English into English or Bangla.</p>
+</div>
+
+<section class="tool-panel">
+    <label for="sourceLang">Translate from</label>
+    <select id="sourceLang">
+        <option value="Korean">Korean</option>
+        <option value="English">English</option>
+    </select>
+
+    <label for="targetLang">Translate to</label>
+    <select id="targetLang">
+        <option value="English">English</option>
+        <option value="Bangla">Bangla</option>
+        <option value="Korean">Korean</option>
+    </select>
+
+    <label for="translationInput">Enter your text</label>
+    <textarea id="translationInput" rows="6" maxlength="5000"
+        placeholder="Type Korean or English here..."></textarea>
+
+    <p id="charCount">0 / 5000</p>
+
+    <button type="button" id="translateBtn"
+        class="btn btn-primary btn-full">
+        Translate Now →
+    </button>
+
+    <p id="translationStatus" class="status-message" role="status"></p>
+
+    <div id="translationResult" class="result-card" hidden>
+        <h2>Translation result</h2>
+        <div id="translationOutput" class="result-content"></div>
+        <button type="button" id="copyResult" class="btn btn-secondary">
+            Copy result
+        </button>
+
+        {% if current_user %}
+        <button type="button" id="saveFavorite" class="btn btn-secondary">
+            Save to favorites
+        </button>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/assistant.js') }}"></script>
+{% endblock %}
