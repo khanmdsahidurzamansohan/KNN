@@ -656,7 +656,8 @@ def language_settings():
     return render_template("language_settings.html", languages=SUPPORTED_LANGUAGES)
 
 
-if __name__ == "__main__":
-    socketio.run(app, host=os.getenv("HOST", "127.0.0.1"),
-                 port=int(os.getenv("PORT", "5000")),
-                 debug=os.getenv("FLASK_DEBUG", "1") == "1")
+import os
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    socketio.run(app, host='0.0.0.0', port=port)
