@@ -20,7 +20,7 @@
       background: white; padding: 20px; border-radius: 16px;
       box-shadow: 0 4px 20px #15294b10; margin-bottom: 16px;
     }
-    .top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
     h1 { margin: 0 0 8px; color: #2457d6; }
     a { color: #2457d6; text-decoration: none; }
     input, select, button {
@@ -46,6 +46,11 @@
     .send { display: flex; gap: 8px; }
     .send input { flex: 1; min-width: 0; }
     #status, #notice { font-size: 14px; color: #52617b; margin: 8px 0; }
+    
+    /* Profile picture style in header */
+    .user-profile-area { display: flex; align-items: center; gap: 12px; }
+    .header-profile-pic { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #2457d6; }
+
     @media(max-width: 700px) {
       .chat-layout { grid-template-columns: 1fr; }
       #messages { height: 55vh; }
@@ -59,10 +64,17 @@
       <h1>KNN Live Chat</h1>
       <div>Chat across Bangla, English and Korean.</div>
     </div>
-    <div>
-      <a href="{{ url_for('dashboard') }}">Dashboard</a> ·
-      <a href="{{ url_for('language_settings') }}">Language settings</a> ·
-      <a href="{{ url_for('logout') }}">Logout</a>
+    
+    <!-- Profile Picture & Links Area -->
+    <div class="user-profile-area">
+      {% if session.get('user_pic') %}
+        <img src="{{ session.get('user_pic') }}" alt="Profile Picture" class="header-profile-pic">
+      {% endif %}
+      <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a> ·
+        <a href="{{ url_for('language_settings') }}">Language settings</a> ·
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </div>
     </div>
   </div>
 
@@ -116,7 +128,8 @@
   window.KNN_CHAT = {
     preferredLanguage: {{ (selected_language or 'en') | tojson }},
     messagesUrlTemplate: {{ url_for('chat_messages', cid=999999) | tojson }},
-    currentUserId: {{ current_user_id | tojson }}
+    currentUserId: {{ current_user_id | tojson }},
+    currentUserPic: {{ session.get('user_pic') | tojson }}
   };
 </script>
 

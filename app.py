@@ -19,9 +19,68 @@ app.secret_key = os.getenv(
     "change-this-secret-key-before-deployment"
 )
 
+# === Google OAuth Credentials ===
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "give-your-google-client-id-here")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "give-your-google-client-secret-here")
 def current_user_language(user_id):
     return session.get("user_language", "en")
+from authlib.integrations.flask_client import OAuth
 
+# Google OAuth Configuration
+oauth = OAuth(app)
+google = oauth.register(
+    name='google',
+    client_id=os.getenv("GOOGLE_CLIENT_ID"),
+    client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_kwargs={
+        'scope': 'openid email profile'
+    }
+)
+@app.route('/auth/google')
+def google_login():
+    redirect_uri = url_for('google_callback', _external=True)
+    return google.authorize_redirect(redirect_uri)
+@app.route('/auth/google/callback')
+def google_callback():
+    try:
+        token = google.authorize_access_token()
+        user_info = token.get('userinfo')
+        if not user_info:
+            user_info = google.get('https://www.googleapis.com/oauth2/v3/userinfo').json()
+
+        # Session store mapping
+        session.permanent = True
+        session['user_id'] = user_info.get('sub') or user_info.get('email')
+        session['user_email'] = user_info.get('email')
+        session['user_name'] = user_info.get('name')
+        session['user_pic'] = user_info.get('picture')
+
+        # --- নতুন ইউজার ডেটাবেজে অটো-সেভ করার লজিক ---
+        with db() as con:
+            user = con.execute("SELECT * FROM users WHERE email = ?", (session['user_email'],)).fetchone()
+            if not user:
+                con.execute(
+                    "INSERT INTO users (name, email, password_hash, profile_pic) VALUES (?, ?, ?, ?)",
+                    (session['user_name'], session['user_email'], "GOOGLE_AUTH", session['user_pic'])
+                )
+                con.commit()
+            else:
+                con.execute(
+                    "UPDATE users SET profile_pic = ?, name = ? WHERE email = ?",
+                    (session['user_pic'], session['user_name'], session['user_email'])
+                )
+                con.commit()
+        # ---------------------------------------------
+
+        flash(f"Welcome, {session['user_name']}! You have been logged in successfully.", "success")
+        
+        return redirect(url_for('home')) 
+        
+    except Exception as e:
+        print(f"GOOGLE OAUTH ERROR: {e}")
+        flash(f"Login failed: {str(e)}", "danger")
+        return redirect(url_for('login'))
 SUPPORTED_LANGUAGES = {
     "bn": "Bangla",
     "en": "English",
@@ -46,7 +105,8 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL
+            password_hash TEXT NOT NULL,
+            profile_pic TEXT
         );
         """)
         
@@ -662,4 +722,4 @@ import os
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    socketio.run(app, host='0.0.0.0', port=port)
+    socketio.run(app, host='0.0.0.0', port=port, debug=True, allow_unsafe_werkzeug=True)
