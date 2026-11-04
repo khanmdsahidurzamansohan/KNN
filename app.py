@@ -577,12 +577,14 @@ def chat_messages(cid):
 
 @socketio.on("join_chat")
 def socket_join_chat(data):
-    uid = session.get("user_id")
+    data = data or {}
+    uid = session.get("user_id") or data.get("user_id")
+    
     if not uid:
         emit("chat_error", {"error": "Please log in first."})
         return
     try:
-        cid = int((data or {}).get("conversation_id", 0))
+        cid = int(data.get("conversation_id", 0))
     except (TypeError, ValueError):
         emit("chat_error", {"error": "Invalid conversation."})
         return

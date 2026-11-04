@@ -112,7 +112,8 @@
 <script>
   window.KNN_CHAT = {
     preferredLanguage: {{ (selected_language or 'en') | tojson }},
-    messagesUrlTemplate: {{ url_for('chat_messages', cid=999999) | tojson }}
+    messagesUrlTemplate: {{ url_for('chat_messages', cid=999999) | tojson }},
+    currentUserId: {{ current_user_id | tojson }}
   };
 </script>
 <script src="{{ url_for('static', filename='js/chat.js') }}"></script>

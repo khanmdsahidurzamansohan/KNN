@@ -99,8 +99,6 @@
       setStatus(error.message);
     }
   }
-
-  // Start Chat Form Submit Handler (জিমেইল দিয়ে চ্যাট শুরুর জন্য)
   if (startForm) {
     startForm.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -116,7 +114,6 @@
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Could not start chat.");
 
-        // সফল হলে রিডাইরেক্ট করবে
         window.location.href = data.redirect;
       } catch (error) {
         setNotice(error.message);
@@ -152,9 +149,11 @@
       setStatus("Connected. Select a conversation or start one.");
       return;
     }
-    socket.emit("join_chat", { conversation_id: conversationId });
+    socket.emit("join_chat", { 
+      conversation_id: conversationId,
+      user_id: window.KNN_CHAT.currentUserId 
+    });
   });
-
   socket.on("joined_chat", (data) => {
     if (Number(data.conversation_id) !== conversationId) return;
     joined = true;
