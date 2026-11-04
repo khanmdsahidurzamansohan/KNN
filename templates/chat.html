@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KNN | Live Chat</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+  <!-- Socket.IO CDN Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+
   <style>
     * { box-sizing: border-box; }
     body {
@@ -108,7 +112,6 @@
   </div>
 </div>
 
-<script src="/socket.io/socket.io.js"></script>
 <script>
   window.KNN_CHAT = {
     preferredLanguage: {{ (selected_language or 'en') | tojson }},
@@ -116,6 +119,7 @@
     currentUserId: {{ current_user_id | tojson }}
   };
 </script>
+
 <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 </body>
 </html>
